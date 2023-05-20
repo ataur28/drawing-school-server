@@ -48,11 +48,24 @@ async function run() {
             res.send(result);
         })
 
+        app.get('/dolls/:id', async (req,res) =>{
+            const id = req.params.id;
+            const query = {_id: new ObjectId(id)}
+            const result = await dollCollection.findOne(query);
+            res.send(result);
+        })
+
         app.post('/dolls', async (req, res) => {
             const doll = req.body;
             console.log('new doll', doll);
             const result = await dollCollection.insertOne(doll);
             res.send(result);
+        })
+
+        app.put('/dolls/:id', async(req, res)=>{
+            const id = req.params.id;
+            const updatedDoll = req.body;
+            console.log(updatedDoll);
         })
 
         app.delete('/dolls/:id', async(req, res) =>{
