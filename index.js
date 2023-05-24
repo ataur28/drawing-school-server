@@ -5,10 +5,28 @@ require('dotenv').config()
 const app = express();
 const port = process.env.PORT || 5000;
 
+const corsOptions ={
+    origin:'*', 
+    credentials:true,
+    optionSuccessStatus:200,
+ }
+
 // middleware
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader(
+      "Access-Control-Allow-Methods",
+      "OPTIONS, GET, POST, PUT, PATCH, DELETE"
+    );
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    if (req.method === "OPTIONS") {
+      return res.sendStatus(200);
+    }
+    next();
+  });
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.ve1ztfj.mongodb.net/?retryWrites=true&w=majority`;
 
@@ -34,7 +52,7 @@ async function run() {
         })
         // need some data email data
         
-        app.get('/dolls', async (req, res) => {
+        app.get('/allDolls', async (req, res) => {
             // console.log(req.query.email);
             console.log(req.query.email);
             // const cursor = dollCollection.find();
@@ -43,11 +61,11 @@ async function run() {
             // if(res.query?.email){
             //     query = {email: req.query.email}
             // }
-            const result = await dollCollection.find().toArray();
+            const result = await dollCollection.find({}).toArray();
             res.send(result);
         })
 
-        app.get('/dolls/:id', async (req,res) =>{
+        app.get('/dollsDetails/:id', async (req,res) =>{
             const id = req.params.id;
             const query = {_id: new ObjectId(id)}
             const result = await dollCollection.findOne(query);
