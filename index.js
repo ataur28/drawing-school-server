@@ -91,11 +91,11 @@ async function run() {
             const options = { upsert: true};
             const updatedDoll = {
                 $set: {
-                    toyName: doll.toyName,
-                    price: doll.price,
-                    quantity: doll.quantity,
-                    details: doll.details,
-                    picture: doll.picture,
+                    className: doll.className,
+                    instructorName: doll.instructorName,
+                    availableSeats: doll.availableSeats,
+                    price : doll.price,
+                    classPicture: doll.classPicture,
                 }
             }
             const result = await dollCollection.updateOne(filter, updatedDoll, options);
