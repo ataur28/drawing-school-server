@@ -43,7 +43,7 @@ async function run() {
         // Connect the client to the server	(optional starting in v4.7)
         // await client.connect();
 
-        const dollCollection = client.db('dollHouse').collection('dolls');
+        const dollCollection = client.db('dollDrawingSchool').collection('dollDrawingSchools');
 
         app.get('/dolls', async (req, res) => {
             const cursor = dollCollection.find();
@@ -124,9 +124,9 @@ run().catch(console.dir);
 
 
 app.get('/', (req, res) => {
-    res.send('doll house is running')
+    res.send('Dolls drawing school is running')
 })
 
 app.listen(port, () => {
-    console.log(`Doll House Server is running on port ${port}`)
+    console.log(`Dolls drawing school  Server is running on port ${port}`)
 })
