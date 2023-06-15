@@ -48,6 +48,7 @@ async function run() {
         // await client.connect();
 
         const dollCollection = client.db('dollDrawingSchool').collection('dollDrawingSchools');
+        const cartCollection = client.db('dollDrawingSchool').collection('carts');
 
         app.get('/dolls', async (req, res) => {
             const cursor = dollCollection.find();
@@ -82,6 +83,37 @@ async function run() {
             const result = await dollCollection.insertOne(doll);
             res.send(result);
         })
+
+        // cart collection api
+        app.get('/carts', async (req, res) =>{
+            const email = req.query.email;
+            if (!email){
+                res.send([]);
+            }
+            const query = {email: email};
+            const result = await cartCollection.find(query).toArray();
+            res.send(result);
+        });
+
+
+        app.post('/carts', async (req, res) => {
+            const item = req.body;
+            console.log(item);
+            const result = await cartCollection.insertOne(item);
+            res.send(result);
+        })
+
+        app.delete('/carts/:id', async(req, res) =>{
+            const id = req.params.id;
+            console.log(id);
+            const query = {_id: new ObjectId(id)}
+            // console.log(query);
+
+            const result = await cartCollection.deleteOne(query);
+            console.log(result);
+            res.send(result);
+        })
+
 
         app.put('/dollsDetails/:id', async(req, res)=>{
             const id = req.params.id;
