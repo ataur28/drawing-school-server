@@ -1,0 +1,2 @@
+-this is server site
+- server site has post , get, put, delete api
